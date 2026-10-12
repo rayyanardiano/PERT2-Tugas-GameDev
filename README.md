@@ -83,27 +83,27 @@ Piringan berukuran lebih besar memiliki penalti lebih berat untuk memaksa algori
 
 ```mermaid
 graph TD
-    Start([MULAI]) --> Init[Inisialisasi:<br/>Start = 'A','A','A'<br/>Goal = 'C','C','C']
-    Init --> PushStart[Push Start State ke Priority Queue OPEN<br/>f(Start) = h(Start)]
-    PushStart --> CheckOpen{OPEN List<br/>Kosong?}
+    Start(["MULAI"]) --> Init["Inisialisasi:<br/>Start = ('A','A','A')<br/>Goal = ('C','C','C')"]
+    Init --> PushStart["Push Start State ke Priority Queue OPEN<br/>f(Start) = h(Start)"]
+    PushStart --> CheckOpen{"OPEN List Kosong?"}
     
-    CheckOpen -->|Ya| NoSol[❌ Solusi Tidak Ditemukan] --> End([SELESAI])
+    CheckOpen -->|Ya| NoSol["Solusi Tidak Ditemukan"] --> End(["SELESAI"])
     
     CheckOpen -->|Tidak| PopNode["Ambil Node n* dengan f(n) terkecil<br/>(heappop dari OPEN)"]
-    PopNode --> CheckGoal{n* == Goal State?}
+    PopNode --> CheckGoal{"n* == Goal State?"}
     
-    CheckGoal -->|Ya| Reconstruct["✅ Solusi Ditemukan!<br/>Rekonstruksi Jalur dari Parent Pointer"]
-    Reconstruct --> PrintAnim[Tampilkan Animasi Visual & Jalur] --> End
+    CheckGoal -->|Ya| Reconstruct["Solusi Ditemukan!<br/>Rekonstruksi Jalur dari Parent Pointer"]
+    Reconstruct --> PrintAnim["Tampilkan Animasi Visual & Jalur"] --> End
     
-    CheckGoal -->|Tidak| CheckVisited{n* ada di<br/>VISITED set?}
+    CheckGoal -->|Tidak| CheckVisited{"n* ada di VISITED set?"}
     CheckVisited -->|Ya| CheckOpen
-    CheckVisited -->|Tidak| AddVisited[Masukkan n* ke VISITED set]
+    CheckVisited -->|Tidak| AddVisited["Masukkan n* ke VISITED set"]
     
-    AddVisited --> GenMoves[Cari Seluruh Edge/Transisi Valid<br/>get_valid_moves n*]
-    GenMoves --> LoopNeighbors{Evaluasi Setiap Tetangga}
+    AddVisited --> GenMoves["Cari Seluruh Transisi Valid:<br/>get_valid_moves(n*)"]
+    GenMoves --> LoopNeighbors{"Evaluasi Setiap Tetangga"}
     
     LoopNeighbors -->|Tetangga Baru| CalcH["Hitung h(tetangga)<br/>Simpan parent[tetangga] = n*"]
-    CalcH --> PushOpen[heappush ke OPEN List]
+    CalcH --> PushOpen["heappush ke OPEN List"]
     PushOpen --> LoopNeighbors
     
     LoopNeighbors -->|Selesai Semua Tetangga| CheckOpen
